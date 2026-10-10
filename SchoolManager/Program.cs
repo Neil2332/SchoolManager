@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Data;
+using SchoolManager.Data.Entities;
 using SchoolManager.Data.Repositories;
+using SchoolManager.Helpers;
 
 namespace SchoolManager
 {
@@ -23,6 +26,25 @@ namespace SchoolManager
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICourseDisciplineRepository, CourseDisciplineRepository>();
 
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<DataContext>()
+            .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+            });
+
+            builder.Services.AddScoped<IUserHelper, UserHelper>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -38,6 +60,7 @@ namespace SchoolManager
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
