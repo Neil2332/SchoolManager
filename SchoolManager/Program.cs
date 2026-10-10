@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Data;
+using SchoolManager.Data.Repositories;
 
 namespace SchoolManager
 {
@@ -14,6 +15,13 @@ namespace SchoolManager
             builder.Services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+            builder.Services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+            builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            builder.Services.AddScoped<ICourseDisciplineRepository, CourseDisciplineRepository>();
 
             var app = builder.Build();
 
