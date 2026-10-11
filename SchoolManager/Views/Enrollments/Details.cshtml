@@ -1,0 +1,84 @@
+﻿@model SchoolManager.Data.Entities.Enrollment
+
+
+@{
+    ViewData["Title"] = "Detalhes da inscrição";
+}
+
+<h1>Detalhes da inscrição</h1>
+
+<div class="card mt-3">
+
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Aluno
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Student?.StudentNumber -
+                @Model.Student?.FullName
+            </dd>
+
+            <dt class="col-sm-3">
+                Curso
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Student?.Course?.Name
+            </dd>
+
+            <dt class="col-sm-3">
+                Disciplina
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Discipline?.Name
+            </dd>
+
+            <dt class="col-sm-3">
+                Data
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.EnrollmentDate.ToString("dd/MM/yyyy")
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Status
+            </dd>
+
+            <dt class="col-sm-3">
+                Nota final
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FinalGrade?.ToString("0.##") ?? "Sem nota")
+            </dd>
+
+        </dl>
+
+    </div>
+
+</div>
+
+<div class="mt-3">
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-primary">
+        Editar
+    </a>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Voltar
+    </a>
+
+</div>

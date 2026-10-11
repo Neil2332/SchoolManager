@@ -1,0 +1,39 @@
+﻿@model SchoolManager.Data.Entities.Enrollment
+
+@{
+    ViewData["Title"] = "Eliminar inscrição";
+}
+
+<h1>Eliminar inscrição</h1>
+
+<div class="alert alert-warning">
+
+    Tem a certeza de que pretende eliminar a inscrição de
+
+    <strong>
+        @Model.Student?.FullName
+    </strong>
+
+    em
+
+    <strong>
+        @Model.Discipline?.Name
+    </strong>?
+
+</div>
+
+<form asp-action="Delete"
+      asp-route-id="@Model.Id"
+      method="post">
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>

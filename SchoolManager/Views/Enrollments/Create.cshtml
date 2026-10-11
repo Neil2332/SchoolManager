@@ -1,0 +1,165 @@
+﻿@model SchoolManager.Data.Entities.Enrollment
+
+@{
+    ViewData["Title"] = "Nova inscrição";
+
+    var students =
+        ViewBag.Students as IEnumerable<SchoolManager.Data.Entities.Student>;
+
+    var disciplines =
+        ViewBag.Disciplines as IEnumerable<SchoolManager.Data.Entities.Discipline>;
+}
+
+<h1>Nova inscrição</h1>
+
+<hr />
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="StudentId"
+                   class="form-label">
+            </label>
+
+            <select asp-for="StudentId"
+                    class="form-select">
+
+                <option value="">
+                    Selecione um aluno
+                </option>
+
+                @if (students != null)
+                {
+                    foreach (var student in students)
+                    {
+                        <option value="@student.Id">
+                            @student.StudentNumber - @student.FullName
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="StudentId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="DisciplineId"
+                   class="form-label">
+            </label>
+
+            <select asp-for="DisciplineId"
+                    class="form-select">
+
+                <option value="">
+                    Selecione uma disciplina
+                </option>
+
+                @if (disciplines != null)
+                {
+                    foreach (var discipline in disciplines)
+                    {
+                        <option value="@discipline.Id">
+                            @discipline.Code - @discipline.Name
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="DisciplineId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <label asp-for="EnrollmentDate"
+                   class="form-label">
+            </label>
+
+            <input asp-for="EnrollmentDate"
+                   type="date"
+                   class="form-control" />
+
+            <span asp-validation-for="EnrollmentDate"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label asp-for="Status"
+                   class="form-label">
+            </label>
+
+            <select asp-for="Status"
+                    class="form-select">
+
+                <option value="Inscrito">Inscrito</option>
+                <option value="Em frequência">Em frequência</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Anulado">Anulado</option>
+
+            </select>
+
+            <span asp-validation-for="Status"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label asp-for="FinalGrade"
+                   class="form-label">
+            </label>
+
+            <input asp-for="FinalGrade"
+                   type="number"
+                   step="0.01"
+                   min="0"
+                   max="20"
+                   class="form-control" />
+
+            <span asp-validation-for="FinalGrade"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Guardar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
