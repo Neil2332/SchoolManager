@@ -1,0 +1,133 @@
+﻿@model SchoolManager.Data.Entities.Student
+
+@{
+    ViewData["Title"] = "Novo aluno";
+    var courses = ViewBag.Courses as IEnumerable<SchoolManager.Data.Entities.Course>;
+}
+
+<h1>Novo aluno</h1>
+
+<hr />
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="StudentNumber"
+                   class="form-label"></label>
+
+            <input asp-for="StudentNumber"
+                   class="form-control" />
+
+            <span asp-validation-for="StudentNumber"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="FirstName"
+                   class="form-label"></label>
+
+            <input asp-for="FirstName"
+                   class="form-control" />
+
+            <span asp-validation-for="FirstName"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="LastName"
+                   class="form-label"></label>
+
+            <input asp-for="LastName"
+                   class="form-control" />
+
+            <span asp-validation-for="LastName"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Email"
+                   class="form-label"></label>
+
+            <input asp-for="Email"
+                   class="form-control" />
+
+            <span asp-validation-for="Email"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="BirthDate"
+                   class="form-label"></label>
+
+            <input asp-for="BirthDate"
+                   type="date"
+                   class="form-control" />
+
+            <span asp-validation-for="BirthDate"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="CourseId"
+                   class="form-label"></label>
+
+            <select asp-for="CourseId"
+                    class="form-select">
+
+                <option value="">Selecione um curso</option>
+
+                @if (courses != null)
+                {
+                    foreach (var course in courses)
+                    {
+                        <option value="@course.Id">
+                            @course.Name
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="CourseId"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="form-check mb-3">
+
+        <input asp-for="IsActive"
+               class="form-check-input" />
+
+        <label asp-for="IsActive"
+               class="form-check-label">
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Guardar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

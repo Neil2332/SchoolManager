@@ -1,0 +1,140 @@
+﻿@model IEnumerable<SchoolManager.Data.Entities.Student>
+
+@{
+    ViewData["Title"] = "Alunos";
+    var courses = ViewBag.Courses as IEnumerable<SchoolManager.Data.Entities.Course>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1>Alunos</h1>
+        <p class="text-muted">Registo e acompanhamento dos alunos.</p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary">
+        Novo aluno
+    </a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+
+    <div class="col-md-5">
+        <input type="text"
+               name="search"
+               value="@ViewBag.Search"
+               class="form-control"
+               placeholder="Nome, número ou email" />
+    </div>
+
+    <div class="col-md-4">
+        <select name="courseId" class="form-select">
+            <option value="">Todos os cursos</option>
+
+            @if (courses != null)
+            {
+                foreach (var course in courses)
+                {
+                    if (ViewBag.CourseId != null &&
+                    (int)ViewBag.CourseId == course.Id)
+                    {
+                        <option value="@course.Id" selected>
+                            @course.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@course.Id">
+                            @course.Name
+                        </option>
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <button type="submit"
+                class="btn btn-outline-secondary">
+            Filtrar
+        </button>
+    </div>
+
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Não existem alunos para apresentar.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>N.º</th>
+                    <th>Aluno</th>
+                    <th>Curso</th>
+                    <th>Email</th>
+                    <th>Estado</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.StudentNumber</td>
+
+                        <td>@item.FullName</td>
+
+                        <td>@item.Course?.Name</td>
+
+                        <td>@item.Email</td>
+
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Ativo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inativo</span>
+                            }
+                        </td>
+
+                        <td class="text-end">
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Detalhes
+                            </a>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-secondary">
+                                Editar
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-danger">
+                                Eliminar
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+}
