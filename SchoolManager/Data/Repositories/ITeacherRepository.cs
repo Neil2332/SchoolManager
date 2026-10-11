@@ -2,10 +2,8 @@
 
 namespace SchoolManager.Data.Repositories
 {
-    public interface ITeacherRepository
+    public interface ITeacherRepository : IGenericRepository<Teacher>
     {
-        public interface ITeacherRepository : IGenericRepository<Teacher>
-        {
-        }
+        
     }
 }

@@ -1,0 +1,63 @@
+﻿@model SchoolManager.Data.Entities.Teacher
+
+@{
+    ViewData["Title"] = "Eliminar professor";
+}
+
+<h1>Eliminar professor</h1>
+
+<div class="alert alert-warning">
+    Tem a certeza de que pretende eliminar
+    <strong>@Model.FullName</strong>?
+</div>
+
+<dl class="row">
+
+    <dt class="col-sm-3">
+        N.º de funcionário
+    </dt>
+
+    <dd class="col-sm-9">
+        @Model.EmployeeNumber
+    </dd>
+
+    <dt class="col-sm-3">
+        Especialidade
+    </dt>
+
+    <dd class="col-sm-9">
+        @Model.Specialization
+    </dd>
+
+    <dt class="col-sm-3">
+        Disciplinas atribuídas
+    </dt>
+
+    <dd class="col-sm-9">
+        @Model.Disciplines.Count
+    </dd>
+
+</dl>
+
+@if (Model.Disciplines.Any())
+{
+    <div class="alert alert-danger">
+        Este professor possui disciplinas atribuídas e não poderá ser eliminado.
+    </div>
+}
+
+<form asp-action="Delete"
+      asp-route-id="@Model.Id"
+      method="post">
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>

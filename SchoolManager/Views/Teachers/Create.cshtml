@@ -1,0 +1,106 @@
+﻿@model SchoolManager.Data.Entities.Teacher
+
+@{
+    ViewData["Title"] = "Novo professor";
+}
+
+<h1>Novo professor</h1>
+
+<hr />
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="EmployeeNumber"
+                   class="form-label"></label>
+
+            <input asp-for="EmployeeNumber"
+                   class="form-control" />
+
+            <span asp-validation-for="EmployeeNumber"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="FirstName"
+                   class="form-label"></label>
+
+            <input asp-for="FirstName"
+                   class="form-control" />
+
+            <span asp-validation-for="FirstName"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="LastName"
+                   class="form-label"></label>
+
+            <input asp-for="LastName"
+                   class="form-control" />
+
+            <span asp-validation-for="LastName"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Email"
+                   class="form-label"></label>
+
+            <input asp-for="Email"
+                   class="form-control" />
+
+            <span asp-validation-for="Email"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Specialization"
+                   class="form-label"></label>
+
+            <input asp-for="Specialization"
+                   class="form-control" />
+
+            <span asp-validation-for="Specialization"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="form-check mb-3">
+
+        <input asp-for="IsActive"
+               class="form-check-input" />
+
+        <label asp-for="IsActive"
+               class="form-check-label">
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Guardar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
