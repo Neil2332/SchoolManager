@@ -65,6 +65,13 @@
                                     Disciplinas
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-controller="Curriculum"
+                                   asp-action="Index">
+                                    Plano curricular
+                                </a>
+                            </li>
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto">
@@ -111,6 +118,35 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mt-3"
+                     role="alert">
+
+                    @TempData["Success"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mt-3"
+                     role="alert">
+
+                    @TempData["Error"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

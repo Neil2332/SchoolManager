@@ -1,0 +1,112 @@
+﻿@model SchoolManager.Data.Entities.CourseDiscipline
+
+@{
+    ViewData["Title"] = "Adicionar disciplina";
+    var courses = ViewBag.Courses as IEnumerable<SchoolManager.Data.Entities.Course>;
+    var disciplines = ViewBag.Disciplines as IEnumerable<SchoolManager.Data.Entities.Discipline>;
+}
+
+<h1>Adicionar disciplina ao plano curricular</h1>
+
+<hr />
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-5 mb-3">
+
+            <label asp-for="CourseId"
+                   class="form-label"></label>
+
+            <select asp-for="CourseId"
+                    class="form-select">
+
+                <option value="">
+                    Selecione um curso
+                </option>
+
+                @if (courses != null)
+                {
+                    foreach (var course in courses)
+                    {
+                        <option value="@course.Id">
+                            @course.Name
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="CourseId"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="col-md-5 mb-3">
+
+            <label asp-for="DisciplineId"
+                   class="form-label"></label>
+
+            <select asp-for="DisciplineId"
+                    class="form-select">
+
+                <option value="">
+                    Selecione uma disciplina
+                </option>
+
+                @if (disciplines != null)
+                {
+                    foreach (var discipline in disciplines)
+                    {
+                        <option value="@discipline.Id">
+                            @discipline.Name
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="DisciplineId"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="col-md-2 mb-3">
+
+            <label asp-for="Semester"
+                   class="form-label"></label>
+
+            <input asp-for="Semester"
+                   type="number"
+                   min="1"
+                   max="12"
+                   class="form-control" />
+
+            <span asp-validation-for="Semester"
+                  class="text-danger"></span>
+
+        </div>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Guardar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

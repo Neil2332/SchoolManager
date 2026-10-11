@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SchoolManager.Data.Entities.CourseDiscipline>
+
+@{
+    ViewData["Title"] = "Plano curricular";
+    var courses = ViewBag.Courses as IEnumerable<SchoolManager.Data.Entities.Course>;
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1>Plano curricular</h1>
+        <p class="text-muted">
+            Relação entre cursos e disciplinas.
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary">
+        Adicionar disciplina
+    </a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+
+    <div class="col-md-6">
+        <select name="courseId" class="form-select">
+            <option value="">Todos os cursos</option>
+
+            @if (courses != null)
+            {
+                foreach (var course in courses)
+                {
+                    if (ViewBag.CourseId != null &&
+                    (int)ViewBag.CourseId == course.Id)
+                    {
+                        <option value="@course.Id" selected>
+                            @course.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@course.Id">
+                            @course.Name
+                        </option>
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <button type="submit"
+                class="btn btn-outline-secondary">
+            Filtrar
+        </button>
+    </div>
+
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Não existem disciplinas associadas aos cursos.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Disciplina</th>
+                    <th>Semestre</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.Course?.Name</td>
+
+                        <td>@item.Discipline?.Name</td>
+
+                        <td>
+                            @(item.Semester).º
+                        </td>
+
+                        <td class="text-end">
+
+                            <form asp-action="Delete"
+                                  asp-route-id="@item.Id"
+                                  method="post"
+                                  class="d-inline">
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Remover esta disciplina do plano curricular?');">
+                                    Remover
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+}
