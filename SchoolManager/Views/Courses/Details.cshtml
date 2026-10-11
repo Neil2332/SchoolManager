@@ -1,0 +1,121 @@
+﻿@model SchoolManager.Data.Entities.Course
+
+@{
+    ViewData["Title"] = "Detalhes do curso";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <div>
+        <h1>@Model.Name</h1>
+        <span class="badge bg-primary">
+            @Model.Code
+        </span>
+    </div>
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-outline-primary">
+        Editar
+    </a>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-5">
+
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Informação
+                </h5>
+
+                <dl>
+
+                    <dt>Descrição</dt>
+                    <dd>
+                        @(string.IsNullOrWhiteSpace(Model.Description)
+                                                ? "Sem descrição."
+                                                : Model.Description)
+                    </dd>
+
+                    <dt>Duração</dt>
+                    <dd>@Model.Semesters semestres</dd>
+
+                    <dt>Estado</dt>
+                    <dd>
+                        @(Model.IsActive ? "Ativo" : "Inativo")
+                    </dd>
+
+                    <dt>Alunos</dt>
+                    <dd>@Model.Students.Count</dd>
+
+                </dl>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-7">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Disciplinas do curso
+                </h5>
+
+                @if (!Model.CourseDisciplines.Any())
+                {
+                    <p class="text-muted">
+                        Ainda não existem disciplinas associadas a este curso.
+                    </p>
+                }
+                else
+                {
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Disciplina</th>
+                                <th>Semestre</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model.CourseDisciplines
+                                                    .OrderBy(cd => cd.Semester))
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Discipline?.Name
+                                    </td>
+
+                                    <td>
+                                        @(item.Semester).º
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<a asp-action="Index"
+   class="btn btn-link mt-3">
+    Voltar aos cursos
+</a>
