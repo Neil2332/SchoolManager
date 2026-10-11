@@ -9,7 +9,7 @@ namespace SchoolManager
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +45,8 @@ namespace SchoolManager
 
             builder.Services.AddScoped<IUserHelper, UserHelper>();
 
+            builder.Services.AddTransient<SeedDb>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -66,6 +68,12 @@ namespace SchoolManager
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var seedDb = scope.ServiceProvider.GetRequiredService<SeedDb>();
+                await seedDb.SeedAsync();
+            }
 
             app.Run();
         }
