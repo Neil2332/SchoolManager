@@ -1,0 +1,93 @@
+﻿@model SchoolManager.Data.Entities.Discipline
+
+@{
+    ViewData["Title"] = "Nova disciplina";
+    var teachers = ViewBag.Teachers as IEnumerable<SchoolManager.Data.Entities.Teacher>;
+}
+
+<h1>Nova disciplina</h1>
+
+<hr />
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="Code" class="form-label"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-8 mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="WorkloadHours"
+                   class="form-label"></label>
+
+            <input asp-for="WorkloadHours"
+                   class="form-control"
+                   type="number"
+                   min="1" />
+
+            <span asp-validation-for="WorkloadHours"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="col-md-8 mb-3">
+            <label asp-for="TeacherId"
+                   class="form-label"></label>
+
+            <select asp-for="TeacherId"
+                    class="form-select">
+
+                <option value="">Sem professor atribuído</option>
+
+                @if (teachers != null)
+                {
+                    foreach (var teacher in teachers)
+                    {
+                        <option value="@teacher.Id">
+                            @teacher.FullName
+                        </option>
+                    }
+                }
+
+            </select>
+
+            <span asp-validation-for="TeacherId"
+                  class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Guardar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

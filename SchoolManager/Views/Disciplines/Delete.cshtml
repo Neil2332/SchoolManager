@@ -1,0 +1,54 @@
+﻿@model SchoolManager.Data.Entities.Discipline
+
+@{
+    ViewData["Title"] = "Eliminar disciplina";
+}
+
+<h1>Eliminar disciplina</h1>
+
+<div class="alert alert-warning">
+    Tem a certeza de que pretende eliminar
+    <strong>@Model.Name</strong>?
+</div>
+
+<dl class="row">
+
+    <dt class="col-sm-3">Código</dt>
+    <dd class="col-sm-9">@Model.Code</dd>
+
+    <dt class="col-sm-3">Professor</dt>
+    <dd class="col-sm-9">
+        @(Model.Teacher?.FullName ?? "Não atribuído")
+    </dd>
+
+    <dt class="col-sm-3">Inscrições</dt>
+    <dd class="col-sm-9">@Model.Enrollments.Count</dd>
+
+    <dt class="col-sm-3">Cursos associados</dt>
+    <dd class="col-sm-9">@Model.CourseDisciplines.Count</dd>
+
+</dl>
+
+@if (Model.Enrollments.Any() ||
+     Model.CourseDisciplines.Any())
+{
+    <div class="alert alert-danger">
+        Esta disciplina possui dados relacionados e não poderá ser eliminada.
+    </div>
+}
+
+<form asp-action="Delete"
+      asp-route-id="@Model.Id"
+      method="post">
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
