@@ -22,6 +22,9 @@ namespace SchoolManager.Data
 
             await CreateRolesAsync();
             await CreateAdminAsync();
+            await CreateSecretariaAsync();
+            await CreateProfessorAsync();
+            await CreateUtilizadorAsync();
         }
 
         private async Task CreateRolesAsync()
@@ -73,6 +76,93 @@ namespace SchoolManager.Data
             if (!await _userHelper.IsUserInRoleAsync(user, "Admin"))
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+        }
+        private async Task CreateSecretariaAsync()
+        {
+            var email = "secretaria@schoolmanager.pt";
+
+            var user = await _userHelper.GetUserByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Secretaria",
+                    LastName = "SchoolManager",
+                    Email = email,
+                    UserName = email,
+                    EmailConfirmed = true
+                };
+
+                var result = await _userHelper.AddUserAsync(
+                    user,
+                    "Secretaria123!");
+
+                if (result.Succeeded)
+                {
+                    await _userHelper.AddUserToRoleAsync(
+                        user,
+                        "Secretaria");
+                }
+            }
+        }
+        private async Task CreateProfessorAsync()
+        {
+            var email = "professor@schoolmanager.pt";
+
+            var user = await _userHelper.GetUserByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Professor",
+                    LastName = "SchoolManager",
+                    Email = email,
+                    UserName = email,
+                    EmailConfirmed = true
+                };
+
+                var result = await _userHelper.AddUserAsync(
+                    user,
+                    "Professor123!");
+
+                if (result.Succeeded)
+                {
+                    await _userHelper.AddUserToRoleAsync(
+                        user,
+                        "Professor");
+                }
+            }
+        }
+        private async Task CreateUtilizadorAsync()
+        {
+            var email = "utilizador@schoolmanager.pt";
+
+            var user = await _userHelper.GetUserByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Utilizador",
+                    LastName = "SchoolManager",
+                    Email = email,
+                    UserName = email,
+                    EmailConfirmed = true
+                };
+
+                var result = await _userHelper.AddUserAsync(
+                    user,
+                    "Utilizador123!");
+
+                if (result.Succeeded)
+                {
+                    await _userHelper.AddUserToRoleAsync(
+                        user,
+                        "Utilizador");
+                }
             }
         }
     }

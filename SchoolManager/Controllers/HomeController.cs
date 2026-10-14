@@ -30,6 +30,17 @@ namespace SchoolManager.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if (User.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return View(new DashboardViewModel());
+            }
+            
+            if (!User.IsInRole("Admin") &&
+                 !User.IsInRole("Secretaria"))
+            {
+                return View(new DashboardViewModel());
+            }
+
             var model = new DashboardViewModel
             {
                 TotalStudents = await _studentRepository

@@ -1,121 +1,71 @@
 ﻿@model SchoolManager.Models.DashboardViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = User.Identity != null && User.Identity.IsAuthenticated
+        ? "Dashboard"
+        : "SchoolManager";
 }
 
 <div class="mb-4">
 
-    <h1>Dashboard</h1>
+    @if (User.IsInRole("Admin") || User.IsInRole("Secretaria"))
+    {
+        <h1>Dashboard</h1>
 
-    <p class="text-muted">
-        Visão geral da gestão escolar.
-    </p>
+        <p class="text-muted">
+            Visão geral da gestão escolar.
+        </p>
+    }
+    else if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <h1>Bem-vindo</h1>
+
+        <p class="text-muted">
+            Área pessoal do SchoolManager.
+        </p>
+    }
+    else
+    {
+        <h1>SchoolManager</h1>
+
+        <p class="text-muted">
+            Plataforma de gestão escolar.
+        </p>
+    }
 
 </div>
 
 
-<div class="row g-3 mb-4">
+<div class="card shadow-sm border-0 mb-4 hero-school-box">
 
-    <div class="col-md-6 col-lg">
+    <div class="row g-0 align-items-center">
 
-        <div class="card h-100 shadow-sm">
+        <div class="col-md-7">
 
-            <div class="card-body">
+            <div class="card-body p-4">
 
-                <div class="text-muted small mb-1">
-                    Alunos
-                </div>
+                <span class="hero-badge">
+                    Gestão escolar integrada
+                </span>
 
-                <div class="display-6 fw-semibold">
-                    @Model.TotalStudents
-                </div>
+                <h2 class="mt-3 mb-3">
+                    Organize alunos, cursos, professores e inscrições.
+                </h2>
 
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body">
-
-                <div class="text-muted small mb-1">
-                    Cursos
-                </div>
-
-                <div class="display-6 fw-semibold">
-                    @Model.TotalCourses
-                </div>
+                <p class="text-muted mb-0">
+                    O SchoolManager centraliza a gestão escolar numa plataforma simples,
+                    intuitiva e funcional, apoiando o controlo académico e administrativo.
+                </p>
 
             </div>
 
         </div>
 
-    </div>
+        <div class="col-md-5">
 
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body">
-
-                <div class="text-muted small mb-1">
-                    Professores
-                </div>
-
-                <div class="display-6 fw-semibold">
-                    @Model.TotalTeachers
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body">
-
-                <div class="text-muted small mb-1">
-                    Disciplinas
-                </div>
-
-                <div class="display-6 fw-semibold">
-                    @Model.TotalDisciplines
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body">
-
-                <div class="text-muted small mb-1">
-                    Inscrições
-                </div>
-
-                <div class="display-6 fw-semibold">
-                    @Model.TotalEnrollments
-                </div>
-
-            </div>
+            <img src="~/images/Turma.jpg"
+                 alt="Turma em sala de aula"
+                 class="img-fluid hero-school-image" />
 
         </div>
 
@@ -124,80 +74,241 @@
 </div>
 
 
-<div class="card shadow-sm">
+@if (User.IsInRole("Admin") || User.IsInRole("Secretaria"))
+{
+    <div class="row g-3 mb-4">
 
-    <div class="card-header bg-white">
+        <div class="col-md-6 col-lg">
 
-        <strong>
-            Inscrições recentes
-        </strong>
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-1">
+                        Alunos
+                    </div>
+
+                    <div class="display-6 fw-semibold">
+                        @Model.TotalStudents
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-lg">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-1">
+                        Cursos
+                    </div>
+
+                    <div class="display-6 fw-semibold">
+                        @Model.TotalCourses
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-lg">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-1">
+                        Professores
+                    </div>
+
+                    <div class="display-6 fw-semibold">
+                        @Model.TotalTeachers
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-lg">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-1">
+                        Disciplinas
+                    </div>
+
+                    <div class="display-6 fw-semibold">
+                        @Model.TotalDisciplines
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-lg">
+
+            <div class="card h-100 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-1">
+                        Inscrições
+                    </div>
+
+                    <div class="display-6 fw-semibold">
+                        @Model.TotalEnrollments
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="card-body p-0">
 
-        @if (!Model.RecentEnrollments.Any())
-        {
-            <div class="p-3 text-muted">
+    <div class="card shadow-sm">
 
-                Ainda não existem inscrições.
+        <div class="card-header bg-white">
 
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
+            <strong>
+                Inscrições recentes
+            </strong>
 
-                <table class="table table-hover mb-0">
+        </div>
 
-                    <thead>
+        <div class="card-body p-0">
 
-                        <tr>
-                            <th>Aluno</th>
-                            <th>Disciplina</th>
-                            <th>Data</th>
-                            <th>Estado</th>
-                            <th>Nota</th>
-                        </tr>
+            @if (!Model.RecentEnrollments.Any())
+            {
+                <div class="p-3 text-muted">
+                    Ainda não existem inscrições.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
 
-                    </thead>
+                    <table class="table table-hover mb-0">
 
-                    <tbody>
+                        <thead>
 
-                        @foreach (var enrollment in Model.RecentEnrollments)
-                        {
                             <tr>
-
-                                <td>
-                                    @enrollment.Student?.FullName
-                                </td>
-
-                                <td>
-                                    @enrollment.Discipline?.Name
-                                </td>
-
-                                <td>
-                                    @enrollment.EnrollmentDate.ToString("dd/MM/yyyy")
-                                </td>
-
-                                <td>
-                                    @enrollment.Status
-                                </td>
-
-                                <td>
-                                    @(enrollment.FinalGrade?.ToString("0.##") ?? "-")
-                                </td>
-
+                                <th>Aluno</th>
+                                <th>Disciplina</th>
+                                <th>Data</th>
+                                <th>Estado</th>
+                                <th>Nota</th>
                             </tr>
-                        }
 
-                    </tbody>
+                        </thead>
 
-                </table>
+                        <tbody>
 
-            </div>
-        }
+                            @foreach (var enrollment in Model.RecentEnrollments)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @enrollment.Student?.FullName
+                                    </td>
+
+                                    <td>
+                                        @enrollment.Discipline?.Name
+                                    </td>
+
+                                    <td>
+                                        @enrollment.EnrollmentDate.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td>
+                                        @enrollment.Status
+                                    </td>
+
+                                    <td>
+                                        @(enrollment.FinalGrade?.ToString("0.##") ?? "-")
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
 
     </div>
+}
+else if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="card shadow-sm border-0">
 
-</div>
+        <div class="card-body text-center py-4">
+
+            <h4 class="mb-2">
+                Bem-vindo ao SchoolManager
+            </h4>
+
+            @if (User.IsInRole("Professor"))
+            {
+                <p class="text-muted mb-0">
+                    Sessão iniciada com o perfil Professor.
+                </p>
+            }
+            else
+            {
+                <p class="text-muted mb-0">
+                    A sua sessão está iniciada.
+                </p>
+            }
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body text-center py-4">
+
+            <h4 class="mb-2">
+                Aceda ao SchoolManager
+            </h4>
+
+            <p class="text-muted mb-3">
+                Inicie sessão para consultar e gerir a informação escolar.
+            </p>
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="btn btn-primary">
+                Entrar
+            </a>
+
+        </div>
+
+    </div>
+}
