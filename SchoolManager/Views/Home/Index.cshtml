@@ -1,8 +1,203 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SchoolManager.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mb-4">
+
+    <h1>Dashboard</h1>
+
+    <p class="text-muted">
+        Visão geral da gestão escolar.
+    </p>
+
+</div>
+
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Alunos
+                </h6>
+
+                <h2 class="mb-0">
+                    @Model.TotalStudents
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Cursos
+                </h6>
+
+                <h2 class="mb-0">
+                    @Model.TotalCourses
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Professores
+                </h6>
+
+                <h2 class="mb-0">
+                    @Model.TotalTeachers
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Disciplinas
+                </h6>
+
+                <h2 class="mb-0">
+                    @Model.TotalDisciplines
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Inscrições
+                </h6>
+
+                <h2 class="mb-0">
+                    @Model.TotalEnrollments
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-white">
+
+        <strong>
+            Inscrições recentes
+        </strong>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        @if (!Model.RecentEnrollments.Any())
+        {
+            <div class="p-3 text-muted">
+
+                Ainda não existem inscrições.
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover mb-0">
+
+                    <thead>
+
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Disciplina</th>
+                            <th>Data</th>
+                            <th>Estado</th>
+                            <th>Nota</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var enrollment in Model.RecentEnrollments)
+                        {
+                            <tr>
+
+                                <td>
+                                    @enrollment.Student?.FullName
+                                </td>
+
+                                <td>
+                                    @enrollment.Discipline?.Name
+                                </td>
+
+                                <td>
+                                    @enrollment.EnrollmentDate.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td>
+                                    @enrollment.Status
+                                </td>
+
+                                <td>
+                                    @(enrollment.FinalGrade?.ToString("0.##") ?? "-")
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
 </div>
